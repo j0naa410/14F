@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Valentín - Flores, Música, Mensaje y Corazones</title>
+    <style>
+        body {
+            background-color: pink;
+            text-align: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: white;
+            font-size: 36px;
+        }
+        .button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .flower {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        /* Estilos para el mensaje especial */
+        #message {
+            display: none;
+            font-size: 24px;
+            color: white;
+            background: rgba(255, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            margin: 20px auto;
+            text-align: center;
+            box-shadow: 0px 0px 10px white;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Corazones flotando en el fondo */
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 30px;
+            opacity: 0.6;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🌹 ¡Feliz San Valentín, mi amor! 🌸</h1>
+    <button class="button" onclick="startMagic()">Haz clic para ver flores, escuchar música y ver tu mensaje</button>
+
+    <!-- Mensaje especial -->
+    <div id="message"></div>
+
+    <!-- Elemento de audio -->
+    <audio id="romanticMusic" loop>
+        <source src="music/romantica.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+
+    <script>
+        function startMagic() {
+            showFlowers();
+            playMusic();
+            showMessage();
+            createHearts();
+        }
+
+        function showFlowers() {
+            const flowerTypes = [
+                '🌹', '🌸', '🌼', '💐', '🌷', 
+                'img/rosa.png', 'img/tulipan.png', 'img/girasoles.png'
+            ];
+            for (let i = 0; i < 30; i++) { 
+                createFlower(flowerTypes[Math.floor(Math.random() * flowerTypes.length)]);
+            }
+        }
+
+        function createFlower(type) {
+            let flower = document.createElement("div");
+            flower.classList.add("flower");
+            flower.style.left = Math.random() * window.innerWidth + "px";
+            flower.style.animationDuration = (Math.random() * 3 + 2) + "s"; 
+
+            if (type.includes('.png')) {
+                let img = document.createElement("img");
+                img.src = type;
+                img.style.width = "50px";
+                img.style.height = "50px";
+                flower.appendChild(img);
+            } else {
+                flower.innerText = type;
+            }
+
+            document.body.appendChild(flower);
+
+            setTimeout(() => {
+                flower.remove();
+            }, 5000);
+        }
+
+        function playMusic() {
+            let audio = document.getElementById("romanticMusic");
+            audio.play();
+        }
+
+        function showMessage() {
+            let messageText = "Mi amor, eres lo mejor que me ha pasado. Gracias por ser mi felicidad cada día. ❤️ Te amo con todo mi corazón.";
+            let messageDiv = document.getElementById("message");
+            messageDiv.innerHTML = ""; 
+            messageDiv.style.display = "block";
+
+            let i = 0;
+            function typeWriter() {
+                if (i < messageText.length) {
+                    messageDiv.innerHTML += messageText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            typeWriter();
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerText = "❤️";
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.fontSize = Math.random() * 20 + 20 + "px";
+                heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }
+        }
+    </script>
+
+</body>
+</html>
